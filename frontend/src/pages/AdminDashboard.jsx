@@ -12,6 +12,7 @@ const VENUES = ['Seminar Hall 1', 'Seminar Hall 2', 'Open Auditorium', 'Main Aud
 const emptyForm = {
     title: '', description: '', date: '', endDate: '', venue: '', department: '',
     organizerName: '', maxCapacity: 100, eventType: 'Other', status: 'Upcoming', poster: '',
+    prerequisites: '', resources: '',
 };
 
 export default function AdminDashboard() {
@@ -68,6 +69,8 @@ export default function AdminDashboard() {
             eventType: event.eventType,
             status: event.status,
             poster: event.poster || '',
+            prerequisites: event.prerequisites || '',
+            resources: event.resources || '',
         });
         setShowForm(true);
     };

@@ -63,6 +63,14 @@ const eventSchema = new mongoose.Schema(
             ref: 'User',
             required: true,
         },
+        prerequisites: {
+            type: String,
+            default: '',
+        },
+        resources: {
+            type: String,
+            default: '',
+        },
     },
     { timestamps: true }
 );
