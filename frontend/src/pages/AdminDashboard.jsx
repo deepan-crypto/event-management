@@ -201,6 +201,8 @@ export default function AdminDashboard() {
                             <div style={{ display: 'grid', gap: '16px' }}>
                                 <FormField label="Event Title" value={form.title} onChange={(v) => setForm({ ...form, title: v })} required />
                                 <FormField label="Description" value={form.description} onChange={(v) => setForm({ ...form, description: v })} textarea />
+                                <FormField label="Prerequisites" value={form.prerequisites} onChange={(v) => setForm({ ...form, prerequisites: v })} textarea placeholder="Enter any prerequisites students should know before attending..." />
+                                <FormField label="Resources" value={form.resources} onChange={(v) => setForm({ ...form, resources: v })} textarea placeholder="Share learning resources, links, or documents..." />
 
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                                     <FormField label="Start Date" type="date" value={form.date} onChange={(v) => setForm({ ...form, date: v })} required />
@@ -331,7 +333,7 @@ function ActionBtn({ icon, color, onClick, title }) {
     );
 }
 
-function FormField({ label, value, onChange, type = 'text', required, textarea }) {
+function FormField({ label, value, onChange, type = 'text', required, textarea, placeholder }) {
     return (
         <div>
             <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#374151', marginBottom: '6px' }}>{label}</label>
@@ -342,6 +344,7 @@ function FormField({ label, value, onChange, type = 'text', required, textarea }
                     onChange={(e) => onChange(e.target.value)}
                     rows={3}
                     style={{ resize: 'vertical' }}
+                    placeholder={placeholder}
                 />
             ) : (
                 <input
@@ -350,6 +353,7 @@ function FormField({ label, value, onChange, type = 'text', required, textarea }
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
                     required={required}
+                    placeholder={placeholder}
                 />
             )}
         </div>
