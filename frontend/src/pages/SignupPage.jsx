@@ -28,6 +28,12 @@ export default function SignupPage() {
         setFormError('');
         dispatch(clearError());
 
+        // Validate roll number only for students
+        if (form.role === 'student' && !form.rollNumber.trim()) {
+            setFormError('Roll Number is required for students.');
+            return;
+        }
+
         if (form.password !== form.confirmPassword) {
             setFormError('Passwords do not match.');
             return;
@@ -38,6 +44,10 @@ export default function SignupPage() {
         }
 
         const { confirmPassword, ...submitData } = form;
+        // Clear rollNumber for admin/faculty
+        if (submitData.role === 'admin') {
+            submitData.rollNumber = '';
+        }
         const result = await dispatch(signupUser(submitData));
         if (signupUser.fulfilled.match(result)) {
             const role = result.payload.user.role;
@@ -127,10 +137,17 @@ export default function SignupPage() {
                         <InputField icon={<Mail size={16} />} label="Email" placeholder="you@sece.ac.in" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} required />
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
-                        <InputField icon={<Hash size={16} />} label="Roll Number" placeholder="22XXXXX" value={form.rollNumber} onChange={(v) => setForm({ ...form, rollNumber: v })} />
-                        <InputField icon={<Phone size={16} />} label="Phone" placeholder="9876543210" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
-                    </div>
+                    {form.role === 'student' && (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
+                            <InputField icon={<Hash size={16} />} label="Roll Number" placeholder="22XXXXX" value={form.rollNumber} onChange={(v) => setForm({ ...form, rollNumber: v })} required />
+                            <InputField icon={<Phone size={16} />} label="Phone" placeholder="9876543210" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+                        </div>
+                    )}
+                    {form.role === 'admin' && (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px', marginBottom: '14px' }}>
+                            <InputField icon={<Phone size={16} />} label="Phone" placeholder="9876543210" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+                        </div>
+                    )}
 
                     <div style={{ marginBottom: '14px' }}>
                         <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#374151', marginBottom: '6px' }}>
